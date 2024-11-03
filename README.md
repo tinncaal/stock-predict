@@ -66,9 +66,9 @@ mvn spring-boot:run
 Open swagger for API documentation:
  - http://localhost:8090/swagger-ui/index.html 
 
-### List of exposed end points
-1. `GET /api/sample` has a single web query param `file` which contain absolut or relative path (to `app.dataFolder.in` defined path) for  data file.
-
+## End points
+### 1. `GET /api/sample` 
+Has a single web query param `file` which contain absolut or relative path (to `app.dataFolder.in` defined path) for  data file.
 ```shell
 curl http://localhost:8090/api/sample?file=LSE/FLTR.csv
 ```
@@ -139,8 +139,8 @@ Response:
 }
 ```
 
-2. `POST /api/predict` take a json with sample data and return `app.predictedSamplesCount` number of predicted values and will write a full sample file on `app.dataFolder.out` (file will contain original send sample + new predicted ones)
-
+### 2. `POST /api/predict` 
+Send a json with sample data and return `app.predictedSamplesCount` number of predicted values and will write a full sample file on `app.dataFolder.out` (file will contain original send sample + new predicted ones)
 ```shell
 curl -X POST --location "http://localhost:8090/api/predict" -H "Content-Type: application/json" -d '{"symbol":"FLTR","pricePointList":[{"date":"2023-09-13","price":16220.25},{"date":"2023-09-14","price":16171.59},{"date":"2023-09-15","price":16106.91},{"date":"2023-09-16","price":16058.58},{"date":"2023-09-17","price":16283.4},{"date":"2023-09-18","price":16397.39},{"date":"2023-09-19","price":16561.36},{"date":"2023-09-20","price":16644.17},{"date":"2023-09-21","price":16793.97},{"date":"2023-09-22","price":16260.38}],"countPoints":10,"generatedDate":"2024-11-01 19:59:50"}'
 ```
@@ -167,8 +167,8 @@ Response:
 }
 ```
 
-3. `GET /api/scan` will scan `app.dataFolder.in` and retrive a list of `count` files from each folder. Each file will be sampled and will be generated a new one with prediction and original data in `app.dataFolder.out`  
-
+### 3. `GET /api/scan`
+Scan `app.dataFolder.in` and retrive a list of `count` files from each folder. Each file will be sampled and will be generated a new one with prediction and original data in `app.dataFolder.out`  
 ```shell
 curl http://localhost:8090/api/scan?count=1
 ```
@@ -233,11 +233,13 @@ curl -u admin:admin http://localhost:8090/api/scan
 ## Predictor engine
 There are to engines (aka algorithms) implemented:
 1. **BASIC** - The default propose algo in documentation
+   
     ```yaml
     app:
       predictor: basic
     ```
-2. **MA** - based on moving average algo, it uses **Apache Commons Maths** lib
+3. **MA** - based on moving average algo, it uses **Apache Commons Maths** lib
+   
     ```yaml
     app:
       predictor: ma
