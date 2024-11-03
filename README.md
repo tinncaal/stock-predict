@@ -66,7 +66,7 @@ mvn spring-boot:run
 Open swagger for API documentation:
  - http://localhost:8090/swagger-ui/index.html 
 
-List of exposed end points:
+### List of exposed end points
 1. `GET /api/sample` has a single web query param `file` which contain absolut or relative path (to `app.dataFolder.in` defined path) for  data file.
 
 ```shell
