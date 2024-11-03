@@ -33,39 +33,35 @@ class StockSeriesTest {
         var price = 150.0D;
 
         stockSeries.addPricePoint(date, price);
-        List<PricePoint> prices = stockSeries.getPricePointList();
+        var pricePointList = stockSeries.getPricePointList();
 
-        assertEquals(1, prices.size());
-        assertEquals(date, prices.get(0).date());
-        assertEquals(price, prices.get(0).price(), 0.0001);
+        assertEquals(1, pricePointList.size());
+        assertEquals(date, pricePointList.get(0).date());
+        assertEquals(price, pricePointList.get(0).price(), 0.0001);
     }
 
     @Test
     void testAppendPricePoint() {
         var stockPriceList = List.of(pp1, pp2);
         stockSeries.appendPricePoint(stockPriceList);
-        var prices = stockSeries.getPricePointList();
+        var pricePointList = stockSeries.getPricePointList();
 
-        assertEquals(2, prices.size());
-        assertEquals(pp1, prices.get(0));
-        assertEquals(pp2, prices.get(1));
+        assertEquals(2, pricePointList.size());
+        assertEquals(pp1, pricePointList.get(0));
+        assertEquals(pp2, pricePointList.get(1));
     }
 
     @Test
     void testGetLastPricePoint() {
         var stockPriceList = List.of(pp1, pp2);
         stockSeries.appendPricePoint(stockPriceList);
-        PricePoint lastPrice = stockSeries.getLastPricePoint();
+        var lastPricePoint = stockSeries.getLastPricePoint();
 
-        assertEquals(pp2, lastPrice);
+        assertEquals(pp2, lastPricePoint);
     }
 
     @Test
     void testGetLastPricePointEmptyList() {
-        Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> {
-            stockSeries.getLastPricePoint();
-        });
-
-        assertNotNull(exception);
+        assertThrows(IndexOutOfBoundsException.class, () -> stockSeries.getLastPricePoint());
     }
 }

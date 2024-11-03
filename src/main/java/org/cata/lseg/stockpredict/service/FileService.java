@@ -25,7 +25,6 @@ import java.util.stream.Stream;
 public class FileService {
 
     private static final String LINE_FORMAT = "%s,%s,%.2f";
-    private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     public static final String CSV = ".csv";
 
@@ -48,7 +47,7 @@ public class FileService {
         var stockSeries = new StockSeries(getSymbol(absoluthPath));
         try {
             // FLTR,01-09-2023,16340.00
-            var stockPrice = Files.readAllLines(absoluthPath)
+            var pricePointList = Files.readAllLines(absoluthPath)
                     .stream()
                     .skip(startIndex)
                     .limit(appConfig.getSamplesCount())
@@ -58,7 +57,7 @@ public class FileService {
                     })
                     .toList();
 
-            stockSeries.appendPricePoint(stockPrice);
+            stockSeries.appendPricePoint(pricePointList);
         } catch (IOException e) {
             throw new FileParsingException("Reading file: " + absoluthPath + " failed", e);
         }
@@ -69,7 +68,7 @@ public class FileService {
     public String writeToFile(StockSeries stockSeries) {
         var stringJoiner = new StringJoiner(System.lineSeparator());
         stockSeries.getPricePointList().forEach(stockPrice -> {
-            String line = String.format(LINE_FORMAT, stockSeries.getSymbol(), stockPrice.date().format(DATETIME_FORMATTER), stockPrice.price());
+            String line = String.format(LINE_FORMAT, stockSeries.getSymbol(), stockPrice.date().format(DATE_FORMATTER), stockPrice.price());
             stringJoiner.add(line);
         });
 
@@ -139,6 +138,6 @@ public class FileService {
 
     private String getSymbol(Path filePath) {
         var fileName = filePath.toFile().getName();
-        return fileName.substring(0, (int)fileName.length() - 4);
+        return fileName.substring(0, fileName.length() - 4);
     }
 }

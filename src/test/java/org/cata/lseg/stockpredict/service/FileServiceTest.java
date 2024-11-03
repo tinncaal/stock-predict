@@ -28,7 +28,7 @@ class FileServiceTest {
     @TempDir
     Path tempDirOut;
 
-    private FileService fileService;
+    FileService fileService;
 
     @BeforeEach
     void setUp() {
@@ -43,10 +43,10 @@ class FileServiceTest {
     @Test
     void testGetDataSample() throws Exception {
         // create stock file
-        Path marketDir = tempDirIn.resolve("market1");
+        var marketDir = tempDirIn.resolve("market1");
         Files.createDirectory(marketDir);
-        Path stockFile = marketDir.resolve("M1S1.csv");
-        List<String> lines = List.of(
+        var stockFile = marketDir.resolve("M1S1.csv");
+        var lines = List.of(
                 "M1S1,01-01-2024,150.00",
                 "M1S1,02-01-2024,152.00",
                 "M1S1,03-01-2024,155.00",
@@ -63,7 +63,7 @@ class FileServiceTest {
         );
         Files.write(stockFile, lines);
 
-        StockSeries stockSeries = fileService.getDataSample("market1/M1S1.csv");
+        var stockSeries = fileService.getDataSample("market1/M1S1.csv");
 
         // Verify the stockSeries
         assertNotNull(stockSeries);
@@ -71,7 +71,7 @@ class FileServiceTest {
         assertEquals(10, stockSeries.getPricePointList().size());
 
         List<PricePoint> pricePoints = stockSeries.getPricePointList();
-        for (int i = 0; i < pricePoints.size(); i++) {
+        for (var i = 0; i < pricePoints.size(); i++) {
             String[] tokens = lines.get(i).split(",");
             LocalDate expectedDate = LocalDate.parse(tokens[1], FORMATTER);
             double expectedPrice = Double.parseDouble(tokens[2]);
@@ -85,11 +85,11 @@ class FileServiceTest {
     @Test
     void testGetDataSample_NotEnoughDataException() throws Exception {
         // create stock file
-        Path marketDir = tempDirIn.resolve("market1");
+        var marketDir = tempDirIn.resolve("market1");
         Files.createDirectory(marketDir);
-        Path stockFile = marketDir.resolve("M1S1.csv");
+        var stockFile = marketDir.resolve("M1S1.csv");
         // small file
-        List<String> lines = List.of(
+        var lines = List.of(
                 "M1S1,01-01-2024,150.00",
                 "M1S1,02-01-2024,152.00",
                 "M1S1,03-01-2024,155.00",
@@ -103,8 +103,8 @@ class FileServiceTest {
     @Test
     void testWriteToFile() throws Exception {
         // write file
-        StockSeries stockSeries = new StockSeries("AAPL");
-        List<PricePoint> pricePoints = List.of(
+        var stockSeries = new StockSeries("AAPL");
+        var pricePoints = List.of(
                 new PricePoint(LocalDate.of(2024, 1, 1), 150.00),
                 new PricePoint(LocalDate.of(2024, 1, 2), 152.00),
                 new PricePoint(LocalDate.of(2024, 1, 3), 155.00)
@@ -112,13 +112,13 @@ class FileServiceTest {
         stockSeries.appendPricePoint(pricePoints);
         String outputFilePath = fileService.writeToFile(stockSeries);
 
-        Path expectedOutputFile = tempDirOut.resolve("AAPL.csv");
+        var expectedOutputFile = tempDirOut.resolve("AAPL.csv");
         assertEquals(expectedOutputFile.toString(), outputFilePath);
         assertTrue(Files.exists(expectedOutputFile));
 
         // read file
-        List<String> lines = Files.readAllLines(expectedOutputFile);
-        List<String> expectedLines = List.of(
+        var lines = Files.readAllLines(expectedOutputFile);
+        var expectedLines = List.of(
                 "AAPL,01-01-2024,150.00",
                 "AAPL,02-01-2024,152.00",
                 "AAPL,03-01-2024,155.00"
@@ -129,11 +129,11 @@ class FileServiceTest {
 
     @Test
     void testGetCandidateFiles_for_1() throws IOException {
-        int count = 1;
+        var count = 1;
         // Create market folders and files
-        Path marketDir1 = tempDirIn.resolve("market1");
+        var marketDir1 = tempDirIn.resolve("market1");
         Files.createDirectory(marketDir1);
-        Path marketDir2 = tempDirIn.resolve("market2");
+        var marketDir2 = tempDirIn.resolve("market2");
         Files.createDirectory(marketDir2);
 
         Files.createFile(marketDir1.resolve("M1S1.csv"));
@@ -141,7 +141,7 @@ class FileServiceTest {
         Files.createFile(marketDir2.resolve("M2S1.csv"));
         Files.createFile(marketDir2.resolve("M2S2.csv"));
 
-        List<String> candidateFiles = fileService.getCandidateFiles(count);
+        var candidateFiles = fileService.getCandidateFiles(count);
 
         assertNotNull(candidateFiles);
         // 2 markets x 1 file
@@ -153,19 +153,19 @@ class FileServiceTest {
 
     @Test
     void testGetCandidateFiles_for_2() throws IOException {
-        int count = 2;
+        var count = 2;
 
         // create a struct of files
-        for (int i = 1; i < 5; i++) {
+        for (var i = 1; i < 5; i++) {
             Path market = tempDirIn.resolve("market" + i);
             Files.createDirectory(market);
 
-            for (int j = 1; j < 4; j++) {
+            for (var j = 1; j < 4; j++) {
                 Files.createFile(market.resolve("M" + 1 + "S" + j + ".csv"));
             }
         }
 
-        List<String> candidateFiles = fileService.getCandidateFiles(count);
+        var candidateFiles = fileService.getCandidateFiles(count);
 
         assertNotNull(candidateFiles);
         // 4 market x 2 files

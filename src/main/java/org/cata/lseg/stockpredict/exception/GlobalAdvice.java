@@ -8,9 +8,20 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
+
 @RestControllerAdvice
 @Slf4j
 public class GlobalAdvice {
+    private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    public record ErrorInfo(String className, String exMessage, HttpStatus httpStatus, UUID uuid, String path, String timestamp) {
+        public ErrorInfo(BaseException ex, HttpStatus httpStatus, String path) {
+            this(ex.getClass().getName(), ex.getLocalizedMessage(), httpStatus, ex.getUuid(), path, LocalDateTime.now().format(DATETIME_FORMATTER));
+        }
+    }
 
     @ExceptionHandler({NoFilesException.class,
     NoMarketFoldersException.class})

@@ -1,11 +1,10 @@
 package org.cata.lseg.stockpredict.utils;
 
-import org.apache.commons.math3.util.Precision;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 
 public class Utils {
+    private Utils() {}
 
     public static double round(double value) {
         return BigDecimal.valueOf(value).setScale(2, RoundingMode.HALF_UP).doubleValue();

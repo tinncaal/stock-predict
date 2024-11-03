@@ -182,7 +182,7 @@ curl http://localhost:8090/api/scan?count=1
 
 Example of request with wrong `count` value:
 ```shell
-curl http://localhost:8090/api/scan?count=100|
+curl http://localhost:8090/api/scan?count=100
 
 
 {
