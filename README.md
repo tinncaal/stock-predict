@@ -72,6 +72,7 @@ List of exposed end points:
 ```shell
 curl http://localhost:8090/api/sample?file=LSE/FLTR.csv
 ```
+Respose:
 ```json
 {
   "symbol": "FLTR",
@@ -125,8 +126,9 @@ curl http://localhost:8090/api/sample?file=LSE/FLTR.csv
 Example of request with `file` which not exists:
 ```shell
 curl http://192.168.0.229:8090/api/sample?file=LSE/FLTR-DUMMY.csv
-
-
+```
+Response:
+```json
 {
   "className": "org.cata.lseg.stockpredict.exception.NoFilesException",
   "exMessage": "Not exist: C:\\dev\\cata\\lseg\\stock_price_data_files\\LSE\\FLTR-DUMMY.csv",
@@ -141,8 +143,9 @@ curl http://192.168.0.229:8090/api/sample?file=LSE/FLTR-DUMMY.csv
 
 ```shell
 curl -X POST --location "http://localhost:8090/api/predict" -H "Content-Type: application/json" -d '{"symbol":"FLTR","pricePointList":[{"date":"2023-09-13","price":16220.25},{"date":"2023-09-14","price":16171.59},{"date":"2023-09-15","price":16106.91},{"date":"2023-09-16","price":16058.58},{"date":"2023-09-17","price":16283.4},{"date":"2023-09-18","price":16397.39},{"date":"2023-09-19","price":16561.36},{"date":"2023-09-20","price":16644.17},{"date":"2023-09-21","price":16793.97},{"date":"2023-09-22","price":16260.38}],"countPoints":10,"generatedDate":"2024-11-01 19:59:50"}'
-
-
+```
+Response:
+```json
 {
   "symbol": "FLTR",
   "countPoints": 3,
@@ -168,8 +171,9 @@ curl -X POST --location "http://localhost:8090/api/predict" -H "Content-Type: ap
 
 ```shell
 curl http://localhost:8090/api/scan?count=1
-
-
+```
+Response:
+```json
 {
   "generatedDate": "2024-11-03 20:37:35",
   "files": [
@@ -183,8 +187,9 @@ curl http://localhost:8090/api/scan?count=1
 Example of request with wrong `count` value:
 ```shell
 curl http://localhost:8090/api/scan?count=100
-
-
+```
+Response:
+```json
 {
   "className": "org.cata.lseg.stockpredict.exception.FileCounterException",
   "exMessage": "The count parameter must be between 1 and 2",
