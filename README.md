@@ -72,7 +72,7 @@ List of exposed end points:
 ```shell
 curl http://localhost:8090/api/sample?file=LSE/FLTR.csv
 
-
+#response
 {
   "symbol": "FLTR",
   "countPoints": 10,
