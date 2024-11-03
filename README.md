@@ -122,6 +122,21 @@ curl http://localhost:8090/api/sample?file=LSE/FLTR.csv
 }
 ```
 
+Example of request with `file` which not exists:
+```shell
+curl http://192.168.0.229:8090/api/sample?file=LSE/FLTR-DUMMY.csv
+
+
+{
+  "className": "org.cata.lseg.stockpredict.exception.NoFilesException",
+  "exMessage": "Not exist: C:\\dev\\cata\\lseg\\stock_price_data_files\\LSE\\FLTR-DUMMY.csv",
+  "httpStatus": "NOT_FOUND",
+  "uuid": "6da50cf3-cce6-46a8-8780-9a3c5db62159",
+  "path": "/api/sample",
+  "timestamp": "2024-11-03T21:40:54.985661"
+}
+```
+
 2. `POST /api/predict` take a json with sample data and return `app.predictedSamplesCount` number of predicted values and will write a full sample file on `app.dataFolder.out` (file will contain original send sample + new predicted ones)
 
 ```shell
@@ -149,7 +164,7 @@ curl -X POST --location "http://localhost:8090/api/predict" -H "Content-Type: ap
 }
 ```
 
-3. `GET /api/scan` will scan `app.dataFolder.in` and 
+3. `GET /api/scan` will scan `app.dataFolder.in` and retrive a list of `count` files from each folder. Each file will be sampled and will be generated a new one with prediction and original data in `app.dataFolder.out`  
 
 ```shell
 curl http://localhost:8090/api/scan?count=1
@@ -162,6 +177,21 @@ curl http://localhost:8090/api/scan?count=1
     "C:\\dev\\cata\\lseg\\out\\TSLA.csv",
     "C:\\dev\\cata\\lseg\\out\\ASH.csv"
   ]
+}
+```
+
+Example of request with wrong `count` value:
+```shell
+curl http://localhost:8090/api/scan?count=100|
+
+
+{
+  "className": "org.cata.lseg.stockpredict.exception.FileCounterException",
+  "exMessage": "The count parameter must be between 1 and 2",
+  "httpStatus": "BAD_REQUEST",
+  "uuid": "02c513e7-365a-4226-8fed-d6c27ca5c022",
+  "path": "/api/scan",
+  "timestamp": "2024-11-03T20:37:16.9193209"
 }
 ```
 
