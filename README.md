@@ -218,7 +218,7 @@ Existing accounts:
     - admin:admin
     - user:user
 
-For the sake of demo, I have applied an `ROLE_ADMIN` on `/api/predict` end point. Accessing api with basic auth enabled:
+For the sake of demo, I have applied the `ROLE_ADMIN` on `/api/predict` end point. Accessing api with basic auth enabled:
 
 ```shell
 curl -u user:user http://localhost:8090/api/sample?file=LSE/FLTR.csv
