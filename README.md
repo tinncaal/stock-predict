@@ -214,6 +214,7 @@ java -jar target/stock-predict-0.0.1-SNAPSHOT.jar --app.auth.enabled=true
 ```
 
 Existing accounts:
+
     - admin:admin
     - user:user
 
