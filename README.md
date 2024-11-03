@@ -196,7 +196,7 @@ curl http://localhost:8090/api/scan?count=100
 ```
 
 ## SSL support
-Default TLS/SSL auth is disabled, to enable it:
+Default TLS/SSL encryption is disabled, to enable it:
 ```shell
 java -jar target/stock-predict-0.0.1-SNAPSHOT.jar --server.ssl.enabled=true
 ```
