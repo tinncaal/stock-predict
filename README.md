@@ -1,5 +1,5 @@
 # Challenge 2: Backend – Predict next 3 values of Stock price (timeseries data)
-This project is addressed to a specific requestor. Represent a POC Spring Boot REST API microservice based on document `TechChallenge2.pdf` which from possible copyright issues, I will not upload in this repo.
+This project is addressed to a specific requestor. Represent a POC Spring Boot REST API microservice based on document `TechChallenge2.pdf` which from possible copyright issues, I will not upload it in this repo.
 
 ## Setup
 Maven Spring Boot project, with prerequisites:
