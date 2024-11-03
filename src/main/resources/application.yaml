@@ -1,0 +1,28 @@
+server:
+  port: 8090
+  ssl:
+    enabled: false
+    key-store: classpath:secret/keystore.p12
+    key-store-password: password
+    key-alias: web
+
+app:
+  dataFolder:
+    in: C:/dev/cata/lseg/stock_price_data_files
+    out: C:/dev/cata/lseg/out
+  samplesCount: 10
+  predictor: basic
+  predictedSamplesCount: 3
+  auth:
+    enabled: false
+
+spring:
+  application:
+    name: stock-predict
+logging:
+  level:
+    root: info
+
+springdoc:
+  swagger-ui:
+    operations-sorter: method
